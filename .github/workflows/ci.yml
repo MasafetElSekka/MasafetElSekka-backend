@@ -1,0 +1,37 @@
+name: .NET Build & Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore MasafetElSekka.slnx
+
+    - name: Build
+      run: dotnet build MasafetElSekka.slnx --no-restore --configuration Release
+
+    - name: Test
+      # Explicitly targeting the Tests project you created in the Clean Architecture setup
+      run: dotnet test ./Tests/Tests.csproj --verbosity normal --configuration Release --logger "trx;LogFileName=test_results.trx"
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      # Adding 'if: always()' ensures you get the test report even if some tests fail
+      if: always() 
+      with:
+        name: test-results
+        path: '**/*.trx'

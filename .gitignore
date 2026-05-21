@@ -427,3 +427,30 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# =========================
+# MASAFET EL SEKKA ADDITIONS
+# =========================
+
+# JetBrains IDEs (Rider / IntelliJ IDEA)
+# Essential if anyone on the team prefers these over VS Code
+.idea/
+*.sln.iml
+
+# OS Generated Files (Protects against Mac users on the team)
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Docker Local Volumes
+# If we test PostgreSQL/Redis locally later, we don't want to commit the raw database files
+.docker-volumes/
+postgres-data/
+mongo-data/
+redis-data/
+
+# Environment Variables
+# Catching any other common local environment file naming conventions
+.env.local
+.env.development

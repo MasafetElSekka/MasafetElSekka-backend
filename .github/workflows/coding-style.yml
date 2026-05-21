@@ -1,0 +1,25 @@
+name: Code Style Check
+
+on: 
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore MasafetElSekka.slnx
+
+    - name: Enforce Formatting
+      # The '--verify-no-changes' flag is the secret ingredient. 
+      # It throws a red 'X' on the PR if the code doesn't match the style guide.
+      run: dotnet format MasafetElSekka.slnx --verify-no-changes
